@@ -7,6 +7,8 @@ import imagediff from 'imagediff'
 const TANTA_LOCALSTORAGE_KEY = 'womack.io.tanta.json'
 
 document.addEventListener('DOMContentLoaded', function () {
+  const $diff    = document.querySelector('canvas#diff')
+  const $showDiff= document.querySelector('#show-diff')
   const $canvas  = document.getElementById('canvas')
   const $button  = document.getElementById('button')
   const $clear   = document.getElementById('clear')
@@ -97,6 +99,11 @@ document.addEventListener('DOMContentLoaded', function () {
     yo.update($overlay, createOverlay(imageDataURL || ''))
   }
 
+  function showDiff () {
+    const diff = imagediff.diff($canvas, $overlay)
+    $diff.getContext('2d').putImageData(diff, 0, 0)
+  }
+
   function createImageListItems () {
     return getImageDataURLs().map(imageDataURL => yo`<li><img src=${imageDataURL} onclick=${(e) => setOverlayDataURL(e.currentTarget.src)} /></li>`)
   }
@@ -125,23 +132,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   const p = navigator.mediaDevices.getUserMedia({ video: true })
+  setInterval(function () {
+    canvas.save()
+    canvas.clearRect(0, 0, $canvas.width, $canvas.height)
+    canvas.drawImage($video, 0, 0, 300, 224)
+    canvas.globalAlpha = 0.5
+    $overlay.style.opacity = '1'
+    canvas.drawImage($overlay, 0, 0)
+    $overlay.style.opacity = ''
+    canvas.globalAlpha = 1
+    canvas.drawImage($diff, 0, 0)
+    canvas.restore()
+  }, 1000 / 30)
 
   p.then(function (mediaStream) {
     $video.src = window.URL.createObjectURL(mediaStream);
 
     $video.onloadedmetadata = function () {
       $button.disabled = false
-      $clear.onclick   = () => setOverlayDataURL()
-      $button.onclick  = () => {
-        canvas.save()
-        canvas.clearRect(0, 0, $canvas.width, $canvas.height)
-        canvas.drawImage($video, 0, 0)
-        canvas.globalAlpha = 0.5
-        $overlay.style.opacity = '1'
-        canvas.drawImage($overlay, 0, 0)
-        $overlay.style.opacity = ''
-        canvas.restore()
+      $clear.onclick   = () => {
+        setOverlayDataURL()
+        $diff.getContext('2d').clearRect(0, 0, $diff.width, $diff.height)
+      }
 
+      $showDiff.onclick  = () => {
+        showDiff()
+      }
+
+      $button.onclick  = () => {
         updateImageList()
       }
 

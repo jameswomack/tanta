@@ -8,14 +8,16 @@
 <body>
   <main id="main">
     <section id="video-container">
-      <video id="video" width="600" height="448"></video>
+      <video id="video" width="300" height="224"></video>
+      <canvas id="diff" width="300" height="224"></canvas>
     </section>
     <section id="controls">
       <input id="button" type="button" disabled="true" value="Take Picture"></input>
       <input id="clear" type="button" value="Clear Overlay"></input>
       <input id="toggle" type="button" value="Turn On Autosnap"></input>
+      <input id="show-diff" type="button" value="Show Diff"></input>
     </section>
-    <canvas id="canvas" style="display:none" width="600" height="448"></canvas>
+    <canvas id="canvas" style="display:none" width="300" height="224"></canvas>
     <section id="image-collection"></section>
   </main>
 </body>
