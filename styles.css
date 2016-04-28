@@ -1,0 +1,56 @@
+body, main {
+  font-family : 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+body, main {
+  text-align : center;
+}
+
+canvas {
+  width  : 300px;
+  height : 224px;
+}
+
+canvas#diff {
+  position : absolute;
+  z-index  : 1000;
+  top      : 0;
+  left     : 0;
+}
+
+ul {
+  display    : flex;
+  flex-wrap  : wrap;
+  list-style : none;
+  padding    : 0;
+  margin     : 0;
+}
+
+ul li img {
+  width  : 300px;
+  height : 224px;
+}
+
+#controls, #video-container {
+  position : relative;
+  display  : block;
+  margin   : 0px auto;
+}
+
+#video-container {
+  height   : 224px;
+  width    : 300px;
+  overflow : hidden;
+}
+
+#video-container video, #video-container img {
+  position : absolute;
+  top      : 0;
+  left     : 0;
+  height   : 224px;
+  width    : 300px;
+}
+
+#video-container img {
+  opacity : 0.5;
+}

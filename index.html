@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+
+<head>
+  <link href="styles.css" type="text/css" rel="stylesheet">
+  <title>Tanta Hot Reloading Example</title>
+</head>
+
+<body>
+  <main id="main">
+    <section id="video-container">
+      <video id="video" width="600" height="448"></video>
+    </section>
+    <section id="controls">
+      <input id="button" type="button" disabled="true" value="Take Picture"></input>
+      <input id="clear" type="button" value="Clear Overlay"></input>
+      <input id="toggle" type="button" value="Turn On Autosnap"></input>
+    </section>
+    <canvas id="canvas" style="display:none" width="600" height="448"></canvas>
+    <section id="image-collection"></section>
+  </main>
+</body>
+
+<script type="text/javascript" src="bundle.js"></script>
