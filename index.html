@@ -6,20 +6,24 @@
 </head>
 
 <body>
-  <main id="main">
-    <section id="video-container">
-      <video id="video" width="300" height="224"></video>
-      <canvas id="diff" width="300" height="224"></canvas>
-    </section>
-    <section id="controls">
-      <input id="button" type="button" disabled="true" value="Take Picture"></input>
-      <input id="clear" type="button" value="Clear Overlay"></input>
-      <input id="toggle" type="button" value="Turn On Autosnap"></input>
-      <input id="show-diff" type="button" value="Show Diff"></input>
-    </section>
-    <canvas id="canvas" style="display:none" width="300" height="224"></canvas>
+  <main id="tanta">
+    <nav id="nav">
+      <h1>&#x22BA;&#x2200;&#x2135;&#x22BA;&#x2200; tanta &#x22BA;&#x2200;&#x2135;&#x22BA;&#x2200; tanta &#x22BA;&#x2200;&#x2135;&#x22BA;&#x2200; tantamount</h1>
+      <div id="video-container">
+        <video id="video" width="300" height="224"></video>
+        <canvas id="diff" width="300" height="224"></canvas>
+      </div>
+      <div id="controls">
+        <input id="button" type="button" disabled="true" value="Take Picture"></input>
+        <input id="clear" type="button" value="Clear Overlay"></input>
+        <input id="toggle" type="button" value="Turn On Autosnap"></input>
+        <input id="show-diff" type="button" value="Show Diff"></input>
+        <input id="clear-all" type="button" value="Clear All &#x192;otos"></input>
+      </div>
+    </nav>
     <section id="image-collection"></section>
   </main>
+  <canvas id="canvas" style="display:none" width="300" height="224"></canvas>
 </body>
 
 <script type="text/javascript" src="bundle.js"></script>

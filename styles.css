@@ -7,23 +7,52 @@ body, main {
 }
 
 canvas {
-  width  : 300px;
   height : 224px;
+  width  : 300px;
+}
+
+nav {
+  left       : 0;
+  width      : 33%;
+}
+
+nav h1 {
+  margin: 0 auto;
+  text-align: center;
+  width: 300px;
+  font-family: Calibri;
+  font-style: italic;
+  font-size: .9em;
+  padding: 0;
+  line-height: 1.5;
+}
+
+#image-collection {
+  right      : 0;
+  width      : 66%;
+}
+
+nav, #image-collection {
+  box-sizing : border-box;
+  display    : block;
+  height     : 100%;
+  position   : absolute;
+  top        : 0;
 }
 
 canvas#diff {
-  position : absolute;
-  z-index  : 1000;
-  top      : 0;
   left     : 0;
+  position : absolute;
+  top      : 0;
+  z-index  : 1000;
 }
 
 ul {
   display    : flex;
   flex-wrap  : wrap;
   list-style : none;
-  padding    : 0;
   margin     : 0;
+  padding    : 0;
 }
 
 ul li img {
@@ -31,23 +60,32 @@ ul li img {
   height : 224px;
 }
 
+#controls {
+  width       : 300px;
+  text-align  : center;
+}
+
+#controls input[type=button] {
+  width : 140px;
+}
+
 #controls, #video-container {
-  position : relative;
   display  : block;
   margin   : 0px auto;
+  position : relative;
 }
 
 #video-container {
   height   : 224px;
-  width    : 300px;
   overflow : hidden;
+  width    : 300px;
 }
 
 #video-container video, #video-container img {
+  height   : 224px;
+  left     : 0;
   position : absolute;
   top      : 0;
-  left     : 0;
-  height   : 224px;
   width    : 300px;
 }
 

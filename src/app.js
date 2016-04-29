@@ -7,16 +7,17 @@ import imagediff from 'imagediff'
 const TANTA_LOCALSTORAGE_KEY = 'womack.io.tanta.json'
 
 document.addEventListener('DOMContentLoaded', function () {
-  const $diff    = document.querySelector('canvas#diff')
-  const $showDiff= document.querySelector('#show-diff')
-  const $canvas  = document.getElementById('canvas')
-  const $button  = document.getElementById('button')
-  const $clear   = document.getElementById('clear')
-  const $toggle  = document.getElementById('toggle')
-  const $video   = document.getElementById('video')
-  const canvas   = $canvas.getContext('2d')
-  let   autoOn   = false
-  let   auto     = null
+  const $diff     = document.querySelector('canvas#diff')
+  const $showDiff = document.querySelector('#show-diff')
+  const $canvas   = document.getElementById('canvas')
+  const $button   = document.getElementById('button')
+  const $clear    = document.getElementById('clear')
+  const $clearAll = document.getElementById('clear-all')
+  const $toggle   = document.getElementById('toggle')
+  const $video    = document.getElementById('video')
+  const canvas    = $canvas.getContext('2d')
+  let   autoOn    = false
+  let   auto      = null
 
   $toggle.onclick = function () {
     autoOn = !autoOn
@@ -82,12 +83,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         canvas.restore()
-        localStorage.setItem(TANTA_LOCALSTORAGE_KEY, JSON.stringify([]))
-        updateImageList()
+        clearAll()
+        updateImageListWithCurrentFrame()
       }
 
       console.error(e)
     }
+  }
+
+  function clearAll () {
+    localStorage.setItem(TANTA_LOCALSTORAGE_KEY, JSON.stringify([]))
   }
 
   function createOverlay (imageDataURL) {
@@ -109,10 +114,14 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function createImageList () {
-    return yo`<ul>${createImageListItems()}</ul>`
+    const listItems = createImageListItems()
+    return yo`<ul>${listItems}</ul>`
   }
 
-  function updateImageList () {
+  let $imageList
+  let $imageCollection
+
+  function updateImageListWithCurrentFrame () {
     const dataURLToPush = $canvas.toDataURL('image/png')
     pushImageDataURL(dataURLToPush)
     yo.update($imageList, createImageList())
@@ -121,14 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const imageDataURLs = getImageDataURLs()
   const firstImageDataURL = imageDataURLs.length && imageDataURLs[0]
   document.getElementById('overlay') && document.getElementById('overlay').remove()
-  const $overlay   = createOverlay(firstImageDataURL)
-  const $imageList = createImageList()
-  const $imageCollection = document.getElementById('image-collection')
-  const $overlayContainer = document.getElementById('video-container')
-  $overlayContainer.appendChild($overlay)
-  for (let $child of $imageCollection.children)
-    $child.remove()
-  $imageCollection.appendChild($imageList)
+  const $overlay = createOverlay(firstImageDataURL)
 
 
   const p = navigator.mediaDevices.getUserMedia({ video: true })
@@ -149,7 +151,12 @@ document.addEventListener('DOMContentLoaded', function () {
     $video.src = window.URL.createObjectURL(mediaStream);
 
     $video.onloadedmetadata = function () {
-      $button.disabled = false
+      $button.disabled  = false
+      $clearAll.onclick = () => {
+        clearAll()
+        yo.update($imageList, createImageList())
+      }
+
       $clear.onclick   = () => {
         setOverlayDataURL()
         $diff.getContext('2d').clearRect(0, 0, $diff.width, $diff.height)
@@ -160,10 +167,18 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       $button.onclick  = () => {
-        updateImageList()
+        updateImageListWithCurrentFrame()
       }
 
       $video.play()
+
+      $imageList = createImageList()
+      $imageCollection = document.getElementById('image-collection')
+      const $overlayContainer = document.getElementById('video-container')
+      $overlayContainer.appendChild($overlay)
+      for (let $child of $imageCollection.children)
+        $child.remove()
+      $imageCollection.appendChild($imageList)
     };
   })
 
